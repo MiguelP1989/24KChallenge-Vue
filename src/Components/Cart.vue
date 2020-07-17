@@ -51,7 +51,13 @@ export default {
         }
     },
     computed: {
-       
+       cartTotal() {
+           let total = 0
+           this.cartList.forEach((item => {
+               total += item.quantity * item.price
+           }))
+           return total
+       }
     },
     mounted() {
         this.cartList = this.$store.state.cart
