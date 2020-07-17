@@ -46,11 +46,6 @@ export default {
         }
     },
       computed: {
-        getProductsList() {
-            this.products = this.$store.state.products
-            // console.log("this.products", this.products)
-      
-        }
 
     },
     methods: {

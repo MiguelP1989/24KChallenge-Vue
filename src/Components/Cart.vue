@@ -4,7 +4,7 @@
   <h1 >Your shopping cart</h1>
 
 <div v-if="cartList.length > 0">
-  <div class="item_container" v-for="item in cartList" :key="item.name">
+  <div class="item_container" v-for="(item, index) in cartList" :key="index">
       <img :src="'../../public' + item.image" alt="">
       
     <div class="items">
@@ -16,7 +16,7 @@
     <button class="btn_cart" :disabled="isDesabled(item)" @click="increasingQuantity(item)">+</button> 
    
       <button class="btn_cart" @click="decressingQuantity(item)">-</button> 
-     <button class="btn_cart_remove" @click="deleteItemFromCart(item)">x</button>
+     <button class="btn_cart_remove" @click="deleteItemFromCart(item, index)">x</button>
      </div>
     </div>
     <div class="price_quantity">
@@ -57,8 +57,11 @@ export default {
                total += item.quantity * item.price
            }))
            return total
+       },
+
+       getCartList() {
+            console.log("cartList", this.$store.state.cart)
        }
-       
     
     },
     methods: {
@@ -68,27 +71,26 @@ export default {
          increasingQuantity(item) {
     item.stockCount--
     item.quantity++
-
+    this.$store.commit("incressing", item)
     
     },
-        decressingQuantity(item) {   
+        decressingQuantity(item, index) {   
       item.quantity--
-     
       item.stockCount++;
       if (item.quantity == 0) {
-          this.deleteItemFromCart(item)
+          this.cartList.splice(index, 1)
         
       }
+       this.$store.commit("decressing", item)
 
     },
-     deleteItemFromCart(item) {
-          var index = this.cartList.indexOf(item);
-          console.log(index);
-          
-      if (index !== -1) {
-        this.cartList.splice(index, 1);
-
-      }
+     deleteItemFromCart(item, index) {
+        
+         if (index !== -1) {
+               this.cartList.splice(index, 1)
+         }
+   this.$store.commit("removeItemFromCart", item, index)
+   
     },
     isDesabled(item) {
         if (item.stockCount == 0) {
@@ -98,9 +100,9 @@ export default {
        }
     },
     mounted() {
-        this.cartList = this.$store.state.cart
-        console.log("cartList", this.cartList);
-        return true
+        // this.cartList = this.$store.state.cart
+        // // console.log("cartList", this.cartList);
+        // return true
         
 
     }
