@@ -19,6 +19,7 @@
         >{{button.text}}</button>
       </aside>
     </section>
+    {{getProductsList}}
 
     </div>
 </div>
@@ -27,12 +28,12 @@
 
 
 <script>
-import products from "../../public/products.js"
+import productsList from "../../public/products.js"
 
 export default {
     data() {
         return {
-            products: products,
+            products: [],
             
             cart: {
                 items: []
@@ -43,6 +44,14 @@ export default {
             disabled: false,
             
         }
+    },
+      computed: {
+        getProductsList() {
+            this.products = this.$store.state.products
+            console.log("this.products", this.products)
+      
+        }
+
     },
     
     methods: {
@@ -84,7 +93,12 @@ export default {
            
          }
         }       
-    }    
+    },
+  
+    mounted() {
+        this.$store.commit("getListProducts", productsList)
+        console.log("productsList", productsList)
+    }   
 }
 </script>
 
