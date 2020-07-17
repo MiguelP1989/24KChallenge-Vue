@@ -48,42 +48,22 @@ export default {
       computed: {
         getProductsList() {
             this.products = this.$store.state.products
-            console.log("this.products", this.products)
+            // console.log("this.products", this.products)
       
         }
 
     },
-    
     methods: {
         addProductToCart(product) {
-            let alreadyInCart = this.getCartItem(product)
-            if (alreadyInCart === -1) {
-              product.stockCount--
-            const updatedItems = this.cart.items.concat({
-            ...product,
-            quantity: 1
-                });
-            this.cart.items = updatedItems
-      console.log("first click", this.cart.items);  
-            } else {  
-                product.stockCount--
-              const updatedItems = [...this.cart.items]
-              
-       console.log('updatedItems if already in the cart', updatedItems);
-              updatedItems[alreadyInCart].quantity += 1
-              updatedItems[alreadyInCart].stockCount--
-              
-               this.cart.items = updatedItems
+
+            product.stockCount--
+            const updatedItems = {
+                ...product,
+                quantity: 1
             }
-        },
-        getCartItem(product) {            
-        const cartItem = this.cart.items.findIndex(
-        item => item.id === product.id
-      
-        );
-        // console.log(cartItem)
-            return cartItem
-        },
+           this.$store.commit("addProductToCart", updatedItems) 
+            },
+    
         isDisabel(product) {
             if (product.stockCount == 0) {
                 this.button.text = "Sold out" 
@@ -92,12 +72,12 @@ export default {
                 this.button.text = "Add to Cart"
            
          }
-        }       
-    },
-  
+        } 
+    
+  },
     mounted() {
         this.$store.commit("getListProducts", productsList)
-        console.log("productsList", productsList)
+        // console.log("productsList", productsList)
     }   
 }
 </script>
