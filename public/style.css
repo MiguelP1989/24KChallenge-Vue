@@ -37,11 +37,11 @@ nav ul li a {
   transition: 0.1s linear
 }
 
-nav ul li a.active {
-  background: #24006B;
+/* nav ul li a.active { */
+  /* background: #24006B;
 
-  
-}
+   */
+/* } */
 
 nav ul li a:hover {
   background: #AA80FF;
