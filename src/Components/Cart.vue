@@ -3,21 +3,23 @@
 <div class="cart_container">
   <h1 >Your shopping cart</h1>
 
-<div v-if="cartList.length > 0">
+<div class="item_outer_container" v-if="cartList.length > 0">
   <div class="item_container" v-for="(item, index) in cartList" :key="index">
  
       <img :src="'../../public' + item.image" alt="">
       
     <div class="items">
     <div class="name_stock">
+      <div>
     <p class="item_name">{{item.name}}</p>
     <p> In Stock: {{item.stockCount}}</p>
-  </div>
+    </div>
   <div class="btns_container">
     <button class="btn_cart" :disabled="isDesabled(item)" @click="increasingQuantity(item)">+</button> 
    
       <button class="btn_cart" @click="decressingQuantity(item, index)">-</button> 
      <button class="btn_cart_remove" @click="deleteItemFromCart(item, index)">x</button>
+     </div>
      </div>
     </div>
     <div class="price_quantity">
@@ -102,8 +104,8 @@ export default {
     },
     mounted() {
         this.cartList = this.$store.state.cart
-        console.log("cartList", this.cartList);
-        // return this.cartList
+
+        
        
         
         
@@ -121,50 +123,45 @@ export default {
 img {
   width: 200px;
 }
-
-.item_container{
+.item_outer_container{
+  width: 100%;
   display: flex;
-  border: 1px solid gray;
+  flex-direction: column;
+  align-items: center;
+}
+.item_container{
+  width: 60%;
+  display: flex;
   align-items: center;
   flex-direction: row;
   padding: 10px;
   margin: 5px;
+  background-color:  #eee;;;
+
 }
 
 .cart_container{
   padding: 20px;
-  /* border: 2px solid red; */
 }
-
 .items{
   padding-left: 30px;
   width: 100%;;
   display: flex;
-  /* border: 2px solid blue; */
-  margin: auto
-}
-
-.item_name{
-  font-size: 20px;;
+  flex-direction: row;
 }
 
 .btns_container{
-  /* display: flex; */
-  /* margin: auto; */
-  /* border: 2px solid yellow; */
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
   flex-direction: column;
-  /* float: left; */
-
+  border-right: 0.5px solid grey;
+  padding-right: 10px;;
 }
 
 .btn_cart, .btn_cart_remove{
   background:  #330099;
-  color: white;
-  width: 27px;
+  width: 35px;
   cursor: pointer;
   border: none;
   padding: 8px;
@@ -174,41 +171,107 @@ img {
 }
 
 .btn_cart_remove {
+  background-color: tomato
+}
+.btn_cart_remove:hover {
   background-color: red;
 }
 
 
 .price_quantity{
   padding-left: 20px;
-  /* border: 1px solid brown; */
   margin: auto ;
+  position: relative;
 }
 .total {
-  width: 100%;
-  /* border: 1px solid red; */
+  width: 83%;
   display: flex;
   justify-content: space-between;
   margin: 0 5px
-
- 
 }
 button {
   background:  #330099;
   color: white;
   padding: 0 15px;
   width: 200px;
-  margin: 7px 0 7px 10px
+  margin: 7px 0 7px 10px;
+}
+button:hover {
+  background-color:  #AA80FF;
+  color:  #eee;;
 }
 h3 {
   margin-right: 20px;;
 }
-
 .cart_empty{
   width: 100%;
   height: 30vh;
   display: flex; 
    align-items: center;
   justify-content: center; 
+}
+
+h1{
+  text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+
+.item_container{
+width: 100%;
+display: flex;
+flex-direction: column;
+}
+.items {
+  margin: 0;
+  width: 77%;
+
+}
+img{
+  width: 80%;
+  margin-top: 10px;
+}
+.btn_cart, .btn_cart_remove{
+margin-right: 20px;
+}
+.price_quantity{
+  text-align: center;
+  width: 80%;
+}
+.btns_container{
+  margin-top: 4px;
+  display: flex;
+  flex-direction: row;
+  border: none
+}
+.name_stock {
+  width: 100%;
+  margin-right: 29px;
+}
+.total {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+h3{
+  margin-left: 25px;;
+}
+}
+@media screen and (min-width: 600px) {
+  .btns_container{
+
+  display: flex;
+  align-items: flex-end;
+  }
+  .item_container{
+    width: 80%;
+  }
+  .name_stock {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+  }
 }
 
 </style>

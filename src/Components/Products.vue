@@ -5,17 +5,21 @@
   </header>
 <div class="products_container">
  <section class="products" v-for="(product, index) in productList" :key="index">
+   <div>
       <img class="product_image" :src="'../../public' + product.image" alt="Cameras" />
+      <div>
       <h2>{{product.name}}</h2>
       <p>{{product.description}}</p>
+      </div>
+      </div>
       <aside>
         <ul>
           <li>{{product.price}} {{product.currency}}</li>
-          <li>In Stock: {{product.stockCount}} items</li>
+          <li>In Stock: {{product.stockCount}}</li>
         </ul>
         <button 
-         @click.prevent="addProductToCart(product)"
          :disabled="isDisabel(product)"
+         @click="addProductToCart(product)"
         >{{button.text}}</button>
       </aside>
     </section>
@@ -32,76 +36,43 @@ import productsList from "../../public/products.js"
 export default {
     data() {
         return {
-            cart: {
-                items: []
-            },
             button: {
-                text: "",
+                text: "Add TO cART",
             },
-            disabled: false,
-            
+            changeColor: false  
         }
     },
     computed: {
-        productList() {
-            return this.$store.state.products
-           
+        productList() {   
+          return  this.$store.state.products
+      
         }
     },
     methods: {
         addProductToCart(product) {
 
           product.stockCount--
+        
            const updatedItems = {
             ...product,
             quantity: 1
            };
 
         this.$store.commit("addProductToCart", updatedItems) 
-          // let alreadyInCart = this.getCartItem(product)
-            // if (alreadyInCart === -1) {
-            //   product.stockCount--
-            // const updatedItems = ({
-            // ...product,
-            // quantity: 1
-            //     });
-        
-      //       this.cart.items = updatedItems
-      // console.log("first click", this.cart.items);  
-      //       } else {  
-      //           product.stockCount--
-      //         const updatedItems = [...this.cart.items]
-              
-      //  console.log('updatedItems if already in the cart', updatedItems);
-      //         updatedItems[alreadyInCart].quantity += 1
-      //         updatedItems[alreadyInCart].stockCount--
-              
-   
-      //       }
-        
-      //     console.log("sss",this.cart.items);
-          
-         
-      //      this.$store.commit("addProductToCart", this.cart.items) 
-          
-// },
-// getCartItem(product) {            
-//         const cartItem = this.cart.items.findIndex(
-//         item => item.id === product.id
-      
-//         );
-        // console.log(cartItem)
-            // return cartItem
+  
         },
         isDisabel(product) {
+    
             if (product.stockCount == 0) {
-                this.button.text = "Sold out" 
-               return !this.disabled 
+                this.button.text = "Sold Out"
+               return !this.disabled
             } else {
                 this.button.text = "Add to Cart"
            
          }
+        
         } 
+       
     
   },
     mounted() {
@@ -114,37 +85,74 @@ export default {
 
 <style scoped>
 
+.red {
+  background: tomato;
+}
+
 button {
-  margin: 18px 0;
+  margin: 18px 5px;;
   width: 50%;
   background: #330099;
   color: white;
   text-transform: uppercase;
   cursor: pointer;
    transition: 0.1s ease-in-out;
+   border: none
  
 }
 button:hover{
   background-color: blueviolet;
 }
 aside {
-  height: 0 auto;
+  height: auto;
   display: flex;
   justify-content: space-between;
+  width: 100%;
+  /* margin-top: 300px; */
 }
 
 .products_container {
  display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin: auto;  
+  /* margin: auto;   */
+  /* border: 3px solid black; */
     
 }
 .products {
-margin: 5px 10px;
-  padding: 5px;
-  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 5px 10px;
+  padding: 30px;
+  width: 30%;
+  /* border: 10px solid black; */
+  background-color: #eee;;
+
     
 }
+@media screen and (max-width: 500px) {
+
+.products {
+width: 80%;
+}
+
+}
+
+
+@media screen and (min-width: 500px) and (max-width: 820px) {
+
+aside{
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+}
+}
+
 
 </style>
