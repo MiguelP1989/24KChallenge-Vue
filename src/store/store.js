@@ -13,47 +13,34 @@ export const store = new Vuex.Store({
     },
 
     mutations: {
-        getCartList(state) {
-            console.log("stateeeeeeeee", state);
-            
-        },
 
         getListProducts(state, payload) {
+            // console.log(state, payload);
+            
             state.products = payload
             
         },
-        addProductToCart(state, payload) {
-            // state.cart.push(payload)
-           
-            if (state.cart.length == 0) {
-                state.cart.push(payload)
-            } else {
-                state.cart.forEach(item => {
-                    if (item.id === payload.id) {
-                        const updatedItem = state.cart
-                        updatedItem[0].quantity++
-                        updatedItem[0].stockCount--
-                        console.log("updatedItem", updatedItem);
-                        // state.cart = updatedItem
-                    }
-                })           
-            } 
-        if (state.cart) {
-            state.cart.forEach((item, idx) => {
-                // console.log("idx", idx);
-                
-                if (item.id !== payload.id) {
-                    console.log("el", item.id, "payload.id", payload.id);
-                    state.cart.push(payload)
-                } 
-            })
-        }
+        addProductToCart(state, payload) { 
 
-        // console.log("payload", payload);   
+        if (state.cart.length == 0) {
+                state.cart.push(payload)
+         } else {
+              const updateItem = state.cart.find(item => item.id === payload.id)
+            if (!updateItem) {
+                state.cart.push(payload)
+              } else {
+                updateItem.quantity+=1
+                updateItem.stockCount--
+              }
+         }    
+            console.log(state.cart);
+
+        
+
             
     },
     removeItemFromCart(state, payload) {
-        state.cart = state.cart.filter(item => item.id  !== payload.id)
+        // state.cart = state.cart.filter(item => item.id  !== payload.id)
         
        state.product = state.products.forEach(item => { 
            if (item.id === payload.id) {    
@@ -62,18 +49,19 @@ export const store = new Vuex.Store({
         })
 
     },
-    decressing(state, payload) {
-        state.product = state.products.forEach(item => {
+    decreasing(state, payload) {
+        
+       state.products.forEach(item => {
             if ( item.id == payload.id) {
-                item.stockCount ++
+                item.stockCount++
             }          
         })
         
     },
-    incressing(state, payload) {
+    increasing(state, payload) {
         state.product = state.products.forEach(item => {
             if ( item.id == payload.id) {
-                item.stockCount --
+                item.stockCount--
             }
                
             

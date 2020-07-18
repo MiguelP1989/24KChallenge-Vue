@@ -4,7 +4,7 @@
     <h1>Products</h1>
   </header>
 <div class="products_container">
- <section class="products" v-for="product in products" :key="product.id">
+ <section class="products" v-for="(product, index) in productList" :key="index">
       <img class="product_image" :src="'../../public' + product.image" alt="Cameras" />
       <h2>{{product.name}}</h2>
       <p>{{product.description}}</p>
@@ -19,8 +19,7 @@
         >{{button.text}}</button>
       </aside>
     </section>
-    {{getProductsList}}
-
+    
     </div>
 </div>
     
@@ -33,8 +32,6 @@ import productsList from "../../public/products.js"
 export default {
     data() {
         return {
-            products: [],
-            
             cart: {
                 items: []
             },
@@ -45,24 +42,61 @@ export default {
             
         }
     },
-      computed: {
-
+    computed: {
+        productList() {
+            return this.$store.state.products
+           
+        }
     },
     methods: {
         addProductToCart(product) {
 
-            product.stockCount--
-            const updatedItems = {
-                ...product,
-                quantity: 1
-            }
-           this.$store.commit("addProductToCart", updatedItems) 
-            },
-    
+          product.stockCount--
+           const updatedItems = {
+            ...product,
+            quantity: 1
+           };
+
+        this.$store.commit("addProductToCart", updatedItems) 
+          // let alreadyInCart = this.getCartItem(product)
+            // if (alreadyInCart === -1) {
+            //   product.stockCount--
+            // const updatedItems = ({
+            // ...product,
+            // quantity: 1
+            //     });
+        
+      //       this.cart.items = updatedItems
+      // console.log("first click", this.cart.items);  
+      //       } else {  
+      //           product.stockCount--
+      //         const updatedItems = [...this.cart.items]
+              
+      //  console.log('updatedItems if already in the cart', updatedItems);
+      //         updatedItems[alreadyInCart].quantity += 1
+      //         updatedItems[alreadyInCart].stockCount--
+              
+   
+      //       }
+        
+      //     console.log("sss",this.cart.items);
+          
+         
+      //      this.$store.commit("addProductToCart", this.cart.items) 
+          
+// },
+// getCartItem(product) {            
+//         const cartItem = this.cart.items.findIndex(
+//         item => item.id === product.id
+      
+//         );
+        // console.log(cartItem)
+            // return cartItem
+        },
         isDisabel(product) {
             if (product.stockCount == 0) {
                 this.button.text = "Sold out" 
-                return !this.disabled
+               return !this.disabled 
             } else {
                 this.button.text = "Add to Cart"
            

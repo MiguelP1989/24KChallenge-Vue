@@ -5,6 +5,7 @@
 
 <div v-if="cartList.length > 0">
   <div class="item_container" v-for="(item, index) in cartList" :key="index">
+ 
       <img :src="'../../public' + item.image" alt="">
       
     <div class="items">
@@ -15,7 +16,7 @@
   <div class="btns_container">
     <button class="btn_cart" :disabled="isDesabled(item)" @click="increasingQuantity(item)">+</button> 
    
-      <button class="btn_cart" @click="decressingQuantity(item)">-</button> 
+      <button class="btn_cart" @click="decressingQuantity(item, index)">-</button> 
      <button class="btn_cart_remove" @click="deleteItemFromCart(item, index)">x</button>
      </div>
     </div>
@@ -57,11 +58,9 @@ export default {
                total += item.quantity * item.price
            }))
            return total
-       },
-
-       getCartList() {
-            console.log("cartList", this.$store.state.cart)
        }
+
+
     
     },
     methods: {
@@ -71,21 +70,23 @@ export default {
          increasingQuantity(item) {
     item.stockCount--
     item.quantity++
-    this.$store.commit("incressing", item)
+    this.$store.commit("increasing", item)
     
     },
-        decressingQuantity(item, index) {   
+        decressingQuantity(item, index) {  
+          
+         
       item.quantity--
       item.stockCount++;
       if (item.quantity == 0) {
-          this.cartList.splice(index, 1)
-        
+         this.deleteItemFromCart(item, index)
+      
       }
-       this.$store.commit("decressing", item)
+       this.$store.commit("decreasing", item)
 
     },
-     deleteItemFromCart(item, index) {
-        
+     deleteItemFromCart(item, index) { 
+       console.log("ideeeeeeee", index) 
          if (index !== -1) {
                this.cartList.splice(index, 1)
          }
@@ -100,9 +101,11 @@ export default {
        }
     },
     mounted() {
-        // this.cartList = this.$store.state.cart
-        // // console.log("cartList", this.cartList);
-        // return true
+        this.cartList = this.$store.state.cart
+        console.log("cartList", this.cartList);
+        // return this.cartList
+       
+        
         
 
     }
