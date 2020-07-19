@@ -8,15 +8,14 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
     state: {
         products: [],
-        cart: []
+        cart: [],
+     
 
     },
 
     mutations: {
 
         getListProducts(state, payload) {
-            // console.log(state, payload);
-            
             state.products = payload
             
         },

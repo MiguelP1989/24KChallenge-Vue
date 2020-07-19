@@ -217,6 +217,11 @@ h1{
 
 @media screen and (max-width: 600px) {
 
+.item_name{
+  font-size: 20px;
+  font-weight: 200px
+}
+
 .item_container{
 width: 100%;
 display: flex;

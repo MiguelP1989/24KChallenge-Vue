@@ -18,9 +18,12 @@
           <li>In Stock: {{product.stockCount}}</li>
         </ul>
         <button 
-         :disabled="isDisabel(product)"
+  
+         :disabled="product.stockCount == 0"
+         v-if="product.stockCount == 0 ? buttonText = 'sold out' : buttonText = 'add to cart'"
+         :class="{'buttonColor': product.stockCount == 0}"
          @click="addProductToCart(product)"
-        >{{button.text}}</button>
+        >{{buttonText}}</button>
       </aside>
     </section>
     
@@ -34,50 +37,28 @@
 import productsList from "../../public/products.js"
 
 export default {
-    data() {
-        return {
-            button: {
-                text: "Add TO cART",
-            },
-            changeColor: false  
-        }
-    },
     computed: {
         productList() {   
-          return  this.$store.state.products
-      
+          return this.$store.state.products
         }
+       
     },
     methods: {
         addProductToCart(product) {
 
           product.stockCount--
         
-           const updatedItems = {
+           const item = {
             ...product,
             quantity: 1
            };
 
-        this.$store.commit("addProductToCart", updatedItems) 
+        this.$store.commit("addProductToCart", item) 
   
-        },
-        isDisabel(product) {
-    
-            if (product.stockCount == 0) {
-                this.button.text = "Sold Out"
-               return !this.disabled
-            } else {
-                this.button.text = "Add to Cart"
-           
-         }
-        
-        } 
-       
-    
+        }
   },
     mounted() {
         this.$store.commit("getListProducts", productsList)
-        // console.log("productsList", productsList)
     }   
 }
 </script>
@@ -85,8 +66,11 @@ export default {
 
 <style scoped>
 
-.red {
+.buttonColor {
   background: tomato;
+}
+.buttonColor:hover {
+    background: tomato;
 }
 
 button {
@@ -108,15 +92,12 @@ aside {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  /* margin-top: 300px; */
 }
 
 .products_container {
  display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  /* margin: auto;   */
-  /* border: 3px solid black; */
     
 }
 .products {
@@ -127,20 +108,16 @@ aside {
   margin: 5px 10px;
   padding: 30px;
   width: 30%;
-  /* border: 10px solid black; */
   background-color: #eee;;
 
     
 }
 @media screen and (max-width: 500px) {
-
 .products {
 width: 80%;
 }
 
 }
-
-
 @media screen and (min-width: 500px) and (max-width: 820px) {
 
 aside{
