@@ -34,7 +34,7 @@
 
 
 <script>
-import productsList from "../../public/products.js"
+// import productsList from "../../public/products.js"
 
 export default {
     computed: {
@@ -55,11 +55,14 @@ export default {
 
         this.$store.commit("addProductToCart", item) 
   
-        }
+        },
+
   },
-    mounted() {
-        this.$store.commit("getListProducts", productsList)
-    }   
+    // mounted() {
+    //     this.$store.commit("getListProducts", productsList)
+
+      
+    // }   
 }
 </script>
 

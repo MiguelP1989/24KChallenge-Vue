@@ -1,23 +1,20 @@
 import Vue from "vue"
 import Vuex from "vuex"
 
-
 Vue.use(Vuex)
 
+import products from "../../public/products"
 
 export const store = new Vuex.Store({
     state: {
-        products: [],
+        products: products,
         cart: [],
      
 
     },
-
     mutations: {
-
         getListProducts(state, payload) {
             state.products = payload
-            
         },
         addProductToCart(state, payload) { 
 
@@ -32,15 +29,12 @@ export const store = new Vuex.Store({
                 updateItem.stockCount--
               }
          }    
-            console.log(state.cart);
-
-        
+            
 
             
     },
     removeItemFromCart(state, payload) {
         // state.cart = state.cart.filter(item => item.id  !== payload.id)
-        
        state.product = state.products.forEach(item => { 
            if (item.id === payload.id) {    
                 item.stockCount += payload.quantity
@@ -65,7 +59,19 @@ export const store = new Vuex.Store({
                
             
         })
+    },
+    initialiseStore(state) {
+        if(localStorage.getItem('store')) {
+            this.replaceState(
+                Object.assign(state, JSON.parse(localStorage.getItem('store')))
+            )
+        }
     }
+  
     }
+  
 })
 
+store.subscribe((mutation, state) => {
+    localStorage.setItem('store', JSON.stringify(state))
+})

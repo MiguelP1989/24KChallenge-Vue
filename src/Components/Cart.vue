@@ -15,10 +15,15 @@
     <p> In Stock: {{item.stockCount}}</p>
     </div>
   <div class="btns_container">
-    <button class="btn_cart" :disabled="isDesabled(item)" @click="increasingQuantity(item)">+</button> 
+    <button class="btn_cart" 
+    :disabled="item.stockCount == 0"
+    :class="{'buttonHover': item.stockCount == 0}"
+     @click="increasingQuantity(item)">+</button> 
    
-      <button class="btn_cart" @click="decressingQuantity(item, index)">-</button> 
-     <button class="btn_cart_remove" @click="deleteItemFromCart(item, index)">x</button>
+    <button class="btn_cart" 
+    @click="decressingQuantity(item, index)">-</button> 
+    <button class="btn_cart_remove"
+     @click="deleteItemFromCart(item, index)">x</button>
      </div>
      </div>
     </div>
@@ -94,13 +99,7 @@ export default {
          }
    this.$store.commit("removeItemFromCart", item, index)
    
-    },
-    isDesabled(item) {
-        if (item.stockCount == 0) {
-            return !this.disabled 
-       
-        }
-       }
+    }
     },
     mounted() {
         this.cartList = this.$store.state.cart
@@ -119,6 +118,10 @@ export default {
 
 
 <style scoped>
+.buttonHover:hover {
+background-color: #330099;;
+
+}
 
 img {
   width: 200px;
@@ -195,6 +198,7 @@ button {
   padding: 0 15px;
   width: 200px;
   margin: 7px 0 7px 10px;
+  border:
 }
 button:hover {
   background-color:  #AA80FF;
