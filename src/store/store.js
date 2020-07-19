@@ -28,45 +28,38 @@ export const store = new Vuex.Store({
                 updateItem.quantity+=1
                 updateItem.stockCount--
               }
-         }    
-            
-
-            
-    },
-    removeItemFromCart(state, payload) {
-        // state.cart = state.cart.filter(item => item.id  !== payload.id)
-       state.product = state.products.forEach(item => { 
-           if (item.id === payload.id) {    
+         }         
+        },
+        removeItemFromCart(state, payload) {
+             state.product = state.products.forEach(item => { 
+                 if (item.id === payload.id) {    
                 item.stockCount += payload.quantity
            }
         })
 
-    },
-    decreasing(state, payload) {
+         },
+         decreasing(state, payload) {
         
-       state.products.forEach(item => {
+             state.products.forEach(item => {
             if ( item.id == payload.id) {
                 item.stockCount++
-            }          
-        })
-        
-    },
-    increasing(state, payload) {
-        state.product = state.products.forEach(item => {
+                 }          
+             })
+         },
+         increasing(state, payload) {
+             state.product = state.products.forEach(item => {
             if ( item.id == payload.id) {
                 item.stockCount--
-            }
-               
-            
+            }   
         })
-    },
-    initialiseStore(state) {
-        if(localStorage.getItem('store')) {
+         },
+         initialiseStore(state) {
+          if(localStorage.getItem('store')) {
             this.replaceState(
                 Object.assign(state, JSON.parse(localStorage.getItem('store')))
             )
         }
-    }
+     }
   
     }
   

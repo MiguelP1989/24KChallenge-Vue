@@ -35,15 +35,15 @@ npm run build
 # vue-router
 npm install vue-router
 
-* Used vue-router to link both components (Cart and Products)
-
 # vuex
 npm install vuex --save
 
-* Used vuex to store the list of products and cart items in state for a better manage of data. Using mutations to update both components (Cart and Products) when removing or adding items.
-Also, used localStorage with vuex store to persist data even after the browser is closed.
 ```
 
+* Used vuex to store the list of products and cart items in state for a better manage of data. Using mutations to update both components (Cart and Products) when removing or adding items.
+Also, used localStorage with vuex store to persist data even after the browser is closed.
+
+* Used vue-router to link both components (Cart and Products)
 
 
 

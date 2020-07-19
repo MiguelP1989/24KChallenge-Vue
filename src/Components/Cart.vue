@@ -52,12 +52,6 @@
 
 <script>
 export default {
-    data() {
-        return {
-            cartList: [],
-            disabled: false
-        }
-    },
     computed: {
        cartTotalPrice() {
            let total = 0
@@ -65,50 +59,36 @@ export default {
                total += item.quantity * item.price
            }))
            return total
+       },
+       cartList() {
+         return  this.$store.state.cart
        }
-
-
-    
     },
     methods: {
         totalPriceEachitem(item) {
             return item.price * item.quantity
         },
          increasingQuantity(item) {
-    item.stockCount--
-    item.quantity++
-    this.$store.commit("increasing", item)
+          item.stockCount--
+          item.quantity++
+          this.$store.commit("increasing", item)
     
-    },
-        decressingQuantity(item, index) {  
-          
-         
-      item.quantity--
-      item.stockCount++;
-      if (item.quantity == 0) {
-         this.deleteItemFromCart(item, index)
-      
-      }
-       this.$store.commit("decreasing", item)
-
-    },
-     deleteItemFromCart(item, index) { 
-       console.log("ideeeeeeee", index) 
-         if (index !== -1) {
-               this.cartList.splice(index, 1)
+       },
+        decressingQuantity(item, index) {     
+          item.quantity--
+          item.stockCount++;
+          if (item.quantity == 0) {
+             this.deleteItemFromCart(item, index)
          }
-   this.$store.commit("removeItemFromCart", item, index)
+             this.$store.commit("decreasing", item)
+       },
+        deleteItemFromCart(item, index) { 
+             if (index !== -1) {
+               this.cartList.splice(index, 1)
+             }
+          this.$store.commit("removeItemFromCart", item, index)
    
     }
-    },
-    mounted() {
-        this.cartList = this.$store.state.cart
-
-        
-       
-        
-        
-
     }
     
 }
