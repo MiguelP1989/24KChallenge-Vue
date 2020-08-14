@@ -1,9 +1,12 @@
 import Vue from "vue"
 import Vuex from "vuex"
 
+
+
 Vue.use(Vuex)
 
 import products from "../../public/products"
+
 
 export const store = new Vuex.Store({
     state: {
@@ -12,11 +15,25 @@ export const store = new Vuex.Store({
      
 
     },
-    mutations: {
-        getListProducts(state, payload) {
-            state.products = payload
+    actions: {
+        addProductToCart: ({commit}, payload) => {
+            commit("ADD_TO_CART", payload)
         },
-        addProductToCart(state, payload) { 
+        removeItemFromCart: ({commit}, payload) => {
+            commit("REMOVE_ITEM", payload)
+        },
+        decreasingItems: ({commit}, payload) => {
+            commit("DECREASE_ITEM_QUANTITY", payload)
+        },
+        increasingItems: ({commit}, payload) => {
+            commit("IINCREASE_ITEM_QUANTITY", payload)
+        },
+        initialiseStoreg: ({commit}) => {
+            commit("INITALISE_STOREG")
+        }
+    },
+    mutations: {
+        "ADD_TO_CART"(state, payload) { 
 
         if (state.cart.length == 0) {
                 state.cart.push(payload)
@@ -30,15 +47,14 @@ export const store = new Vuex.Store({
               }
          }         
         },
-        removeItemFromCart(state, payload) {
+        "REMOVE_ITEM"(state, payload) {
              state.product = state.products.forEach(item => { 
                  if (item.id === payload.id) {    
                 item.stockCount += payload.quantity
            }
         })
-
          },
-         decreasing(state, payload) {
+         "DECREASE_ITEM_QUANTITY"(state, payload) {
         
              state.products.forEach(item => {
             if ( item.id == payload.id) {
@@ -46,21 +62,29 @@ export const store = new Vuex.Store({
                  }          
              })
          },
-         increasing(state, payload) {
+         "IINCREASE_ITEM_QUANTITY" (state, payload) {
              state.product = state.products.forEach(item => {
             if ( item.id == payload.id) {
                 item.stockCount--
             }   
         })
          },
-         initialiseStore(state) {
-          if(localStorage.getItem('store')) {
+         "INITALISE_STOREG"(state) {
+
+            console.log(state)
+             
+            if(localStorage.getItem('store')) {
             this.replaceState(
                 Object.assign(state, JSON.parse(localStorage.getItem('store')))
-            )
-        }
-     }
+            )   
+           }
+         }
   
+    },
+    getters: {
+        productList(state) {
+            return state.products
+        }
     }
   
 })

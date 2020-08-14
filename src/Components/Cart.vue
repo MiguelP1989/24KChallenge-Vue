@@ -71,7 +71,7 @@ export default {
          increasingQuantity(item) {
           item.stockCount--
           item.quantity++
-          this.$store.commit("increasing", item)
+          this.$store.dispatch("increasingItems", item)
     
        },
         decressingQuantity(item, index) {     
@@ -80,13 +80,13 @@ export default {
           if (item.quantity == 0) {
              this.deleteItemFromCart(item, index)
          }
-             this.$store.commit("decreasing", item)
+             this.$store.dispatch("decreasingItems", item)
        },
         deleteItemFromCart(item, index) { 
              if (index !== -1) {
                this.cartList.splice(index, 1)
              }
-          this.$store.commit("removeItemFromCart", item, index)
+          this.$store.dispatch("removeItemFromCart", item, index)
    
     }
     }

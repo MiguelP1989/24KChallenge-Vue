@@ -26,7 +26,6 @@
         >{{buttonText}}</button>
       </aside>
     </section>
-    {{getCart}}
     </div>
 </div>
     
@@ -37,7 +36,7 @@
 export default {
     computed: {
         productList() {   
-          return this.$store.state.products
+          return this.$store.getters.productList
         }
     },
     methods: {
@@ -50,7 +49,8 @@ export default {
             quantity: 1
            };
 
-        this.$store.commit("addProductToCart", item) 
+        // this.$store.commit("addProductToCart", item) 
+          this.$store.dispatch('addProductToCart', item)
   
         }
         
